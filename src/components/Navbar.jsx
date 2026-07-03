@@ -32,19 +32,19 @@ const Navbar = () => {
 
   return (
     <nav className={`sticky top-0 w-full z-50 transition-all duration-300 ${
-      isScrolled 
+      (isScrolled || isOpen)
         ? 'bg-[#140e12]/95 border-b border-neutral-900 shadow-2xl py-2' 
-        : 'bg-transparent border-transparent py-4'
+        : 'bg-transparent border-transparent py-2.5 lg:py-4'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-14 lg:h-20">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
               <img
                 src="/logo-dark-no-bg.png"
                 alt="Mayoora Cine Rentals Logo"
-                className="h-16 w-auto rounded-lg"
+                className="h-11 lg:h-16 w-auto rounded-lg"
               />
             </Link>
           </div>

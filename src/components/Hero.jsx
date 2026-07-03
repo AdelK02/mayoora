@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 const Hero = () => {
   return (
-    <section className="relative h-[550px] md:h-[calc(100vh-140px)] min-h-[500px] max-h-[800px] overflow-hidden bg-black flex items-center -mt-[112px] pt-[112px]">
+    <section className="relative h-[550px] md:h-[calc(100vh-140px)] min-h-[500px] max-h-[800px] overflow-hidden bg-black flex items-center -mt-[76px] pt-[76px] lg:-mt-[112px] lg:pt-[112px]">
       {/* Background Image with Zoom-in Animation */}
       <motion.div 
         initial={{ scale: 1.15, opacity: 0 }}
