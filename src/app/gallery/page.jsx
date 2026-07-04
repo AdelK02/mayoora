@@ -10,6 +10,7 @@ import PageHero from "@/components/PageHero";
 import FloatingContact from "@/components/FloatingContact";
 
 import { api } from '@/utils/api';
+import { motion } from 'framer-motion';
 
 const getYouTubeEmbedUrl = (url) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -126,50 +127,58 @@ const GalleryContent = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {filteredImages.map((img) => (
-              <div 
-                key={img.id} 
-                className="relative aspect-square overflow-hidden rounded-2xl group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 bg-[#1c1418] border border-white/5"
-                onClick={() => setActiveImage(img)}
+            {filteredImages.map((img, idx) => (
+              <motion.div
+                key={img.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: (idx % 4) * 0.08 }}
+                className="w-full aspect-square"
               >
-                {img.category === 'VIDEO' ? (
-                  <div className="absolute inset-0 flex flex-col justify-between p-6">
-                    {/* Play Icon Backdrop */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/80 z-0 flex items-center justify-center">
-                      <div className="w-14 h-14 bg-[#600138] hover:bg-[#7A0247] rounded-full flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform duration-300">
-                        <svg className="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
+                <div 
+                  className="w-full h-full relative overflow-hidden rounded-2xl group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-300 bg-[#1c1418] border border-white/5"
+                  onClick={() => setActiveImage(img)}
+                >
+                  {img.category === 'VIDEO' ? (
+                    <div className="absolute inset-0 flex flex-col justify-between p-6">
+                      {/* Play Icon Backdrop */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/80 z-0 flex items-center justify-center">
+                        <div className="w-14 h-14 bg-[#600138] hover:bg-[#7A0247] rounded-full flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform duration-300">
+                          <svg className="w-6 h-6 fill-current ml-1" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
+                      </div>
+                      
+                      <div className="relative z-10 flex flex-col justify-between h-full">
+                        <span className="bg-[#600138] text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider self-start">
+                          {img.category}
+                        </span>
+                        <h4 className="text-white font-black text-xs uppercase tracking-wide line-clamp-2">
+                          {img.title || 'Cinematic Video'}
+                        </h4>
                       </div>
                     </div>
-                    
-                    <div className="relative z-10 flex flex-col justify-between h-full">
-                      <span className="bg-[#600138] text-white text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider self-start">
+                  ) : (
+                    <>
+                      <img 
+                        src={img.url} 
+                        alt={img.title || img.category} 
+                        className="w-full h-full object-cover absolute inset-0 transition-transform duration-700 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <span className="text-white border-2 border-white px-6 py-2 font-black tracking-widest text-xs uppercase">
+                          VIEW IMAGE
+                        </span>
+                      </div>
+                      <div className="absolute top-4 left-4 bg-[#600138] text-white text-[10px] font-black px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
                         {img.category}
-                      </span>
-                      <h4 className="text-white font-black text-xs uppercase tracking-wide line-clamp-2">
-                        {img.title || 'Cinematic Video'}
-                      </h4>
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <img 
-                      src={img.url} 
-                      alt={img.title || img.category} 
-                      className="w-full h-full object-cover absolute inset-0 transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                      <span className="text-white border-2 border-white px-6 py-2 font-black tracking-widest text-xs uppercase">
-                        VIEW IMAGE
-                      </span>
-                    </div>
-                    <div className="absolute top-4 left-4 bg-[#600138] text-white text-[10px] font-black px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                      {img.category}
-                    </div>
-                  </>
-                )}
-              </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </motion.div>
             ))}
           </div>
         )}

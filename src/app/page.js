@@ -15,6 +15,8 @@ import PromoPopup from "@/components/PromoPopup";
 import FloatingContact from "@/components/FloatingContact";
 import { api } from '@/utils/api';
 
+import { motion } from 'framer-motion';
+
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [popupSettings, setPopupSettings] = useState(null);
@@ -44,12 +46,27 @@ export default function Home() {
       <CategoryGrid />
       
       <section className="bg-[#140e12] py-20 px-6 md:px-20 mx-auto">
-        <h2 className="text-3xl font-black text-white mb-12 tracking-tight uppercase border-l-8 border-[#600138] pl-6 ">
+        <motion.h2 
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-3xl font-black text-white mb-12 tracking-tight uppercase border-l-8 border-[#600138] pl-6 "
+        >
           Featured Equipment
-        </h2>
+        </motion.h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10 px-10">
           {products.map((product, idx) => (
-            <ProductCard key={idx} {...product} />
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: idx * 0.15 }}
+              className="h-full"
+            >
+              <ProductCard {...product} />
+            </motion.div>
           ))}
         </div>
       </section>

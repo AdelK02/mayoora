@@ -10,6 +10,7 @@ import PageHero from "@/components/PageHero";
 import FloatingContact from "@/components/FloatingContact";
 import ProductCard from "@/components/ProductCard";
 import { api } from '@/utils/api';
+import { motion } from 'framer-motion';
 
 const CategoryPage = () => {
   const params = useParams();
@@ -53,7 +54,13 @@ const CategoryPage = () => {
       />
 
       <section className="py-24 px-6 md:px-20 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6"
+        >
           <div className="space-y-2">
             <h2 className="text-4xl font-black text-white uppercase tracking-tighter italic">
               {displayTitle} Selection
@@ -63,12 +70,21 @@ const CategoryPage = () => {
           <p className="text-gray-500 font-bold uppercase tracking-widest text-sm">
             {products.length} Products Found
           </p>
-        </div>
+        </motion.div>
 
         {products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {products.map((product, idx) => (
-              <ProductCard key={idx} {...product} showDescription={true} />
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: (idx % 4) * 0.1 }}
+                className="h-full"
+              >
+                <ProductCard {...product} showDescription={true} />
+              </motion.div>
             ))}
           </div>
         ) : (

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { api } from '@/utils/api';
+import { motion } from 'framer-motion';
 
 const DEFAULT_FALLBACK_CATEGORIES = [
   { name: 'CAMERAS', slug: 'cameras', image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80' },
@@ -58,48 +59,64 @@ const CategoryGrid = () => {
   return (
     <section id="categories" className="bg-[#140e12] py-20 px-6 md:px-20">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl font-black text-center text-white mb-12 tracking-tight uppercase">Equipment Categories</h2>
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-3xl font-black text-center text-white mb-12 tracking-tight uppercase"
+        >
+          Equipment Categories
+        </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {categories.slice(0, 7).map((cat, idx) => (
-            <Link 
-              key={cat.slug || idx} 
-              href={`/products/${cat.slug || cat.name.toLowerCase()}`}
-              className={`group relative overflow-hidden rounded-2xl bg-[#0f0f0f] border border-neutral-900 cursor-pointer h-60 md:h-64 block transition-all duration-300 hover:shadow-2xl hover:border-neutral-800 ${getColSpan(idx, categories.length)}`}
+            <motion.div
+              key={cat.slug || idx}
+              initial={{ opacity: 0, y: 45 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: (idx % 3) * 0.1 }}
+              className={`${getColSpan(idx, categories.length)}`}
             >
-              <div className="absolute inset-0 z-0">
-                <img 
-                  src={cat.image} 
-                  alt={cat.name} 
-                  className="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-75" 
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
-              </div>
+              <Link 
+                href={`/products/${cat.slug || cat.name.toLowerCase()}`}
+                className="group relative overflow-hidden rounded-2xl bg-[#0f0f0f] border border-neutral-900 cursor-pointer h-60 md:h-64 block transition-all duration-300 hover:shadow-2xl hover:border-neutral-800 w-full"
+              >
+                <div className="absolute inset-0 z-0">
+                  <img 
+                    src={cat.image} 
+                    alt={cat.name} 
+                    className="w-full h-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-105 group-hover:opacity-75" 
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                </div>
 
-              <div className="absolute inset-0 z-10 p-6 md:p-8 flex flex-col justify-end">
-                <div className="flex justify-between items-end">
-                  <div className="space-y-1">
-                    <span className="text-[10px] md:text-xs font-bold tracking-widest text-[#FFFFFF] opacity-70 uppercase block">
-                      RENT
-                    </span>
-                    <h3 className="text-white font-black text-xl md:text-2xl tracking-tight leading-none uppercase">
-                      {cat.name}
-                    </h3>
-                  </div>
-                  
-                  <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center transition-all duration-300 group-hover:bg-[#600138] group-hover:scale-110 shrink-0">
-                    <svg 
-                      className="w-5 h-5 transform transition-transform group-hover:translate-x-1" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24" 
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                    </svg>
+                <div className="absolute inset-0 z-10 p-6 md:p-8 flex flex-col justify-end">
+                  <div className="flex justify-between items-end">
+                    <div className="space-y-1">
+                      <span className="text-[10px] md:text-xs font-bold tracking-widest text-[#FFFFFF] opacity-70 uppercase block">
+                        RENT
+                      </span>
+                      <h3 className="text-white font-black text-xl md:text-2xl tracking-tight leading-none uppercase">
+                        {cat.name}
+                      </h3>
+                    </div>
+                    
+                    <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center transition-all duration-300 group-hover:bg-[#600138] group-hover:scale-110 shrink-0">
+                      <svg 
+                        className="w-5 h-5 transform transition-transform group-hover:translate-x-1" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24" 
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                      </svg>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -1,11 +1,21 @@
+"use client";
+
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const SimpleProductCard = ({ title, image, price }) => {
   const encodedTitle = encodeURIComponent(title);
   const whatsappUrl = `https://wa.me/919496350343?text=Hi%20Mayoora%2C%20I%20am%20interested%20in%20renting%20the%20${encodedTitle}.`;
 
   return (
-    <div className="bg-white border border-gray-100 rounded-3xl overflow-hidden group flex flex-col h-[420px] shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      className="h-full"
+    >
+      <div className="bg-white border border-gray-100 rounded-3xl overflow-hidden group flex flex-col h-[420px] shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-1">
       {/* Product Image Container */}
       <div className="relative w-full h-52 bg-gray-50 overflow-hidden flex items-center justify-center border-b border-gray-100">
         <img 
@@ -39,6 +49,7 @@ const SimpleProductCard = ({ title, image, price }) => {
         </a>
       </div>
     </div>
+    </motion.div>
   );
 };
 

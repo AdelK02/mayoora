@@ -8,6 +8,7 @@ import PageHero from "@/components/PageHero";
 import FloatingContact from "@/components/FloatingContact";
 import Link from 'next/link';
 import { api } from '@/utils/api';
+import { motion } from 'framer-motion';
 
 const ProductsPage = () => {
   const [categories, setCategories] = useState([]);
@@ -34,36 +35,50 @@ const ProductsPage = () => {
 
       {/* Category Grid */}
       <section className="py-24 px-6 md:px-20 max-w-7xl mx-auto">
-        <div className="text-center mb-16 space-y-4">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-16 space-y-4"
+        >
           <h2 className="text-4xl font-black text-white uppercase tracking-tighter">Browse by Category</h2>
           <div className="w-24 h-1 bg-[#600138] mx-auto"></div>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((cat, idx) => (
-            <Link 
-              key={idx} 
-              href={`/products/${cat.slug}`}
-              className="group relative h-96 overflow-hidden rounded-3xl shadow-lg cursor-pointer"
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: (idx % 3) * 0.1 }}
+              className="h-96"
             >
-              <img 
-                src={cat.image} 
-                alt={cat.name} 
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-10">
-                <span className="text-[#E2D1A1] text-xs font-black tracking-widest mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 uppercase">
-                  {cat.count} Items Available
-                </span>
-                <h3 className="text-white text-3xl font-black tracking-tighter uppercase mb-4">
-                  {cat.name}
-                </h3>
-                <div className="flex items-center space-x-2 text-white/70 font-bold group-hover:text-white transition-colors">
-                  <span className="text-sm">EXPLORE NOW</span>
-                  <div className="w-0 group-hover:w-8 h-[2px] bg-[#E2D1A1] transition-all duration-300"></div>
+              <Link 
+                href={`/products/${cat.slug}`}
+                className="group relative w-full h-full overflow-hidden rounded-3xl shadow-lg cursor-pointer block"
+              >
+                <img 
+                  src={cat.image} 
+                  alt={cat.name} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-10">
+                  <span className="text-[#E2D1A1] text-xs font-black tracking-widest mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 uppercase">
+                    {cat.count} Items Available
+                  </span>
+                  <h3 className="text-white text-3xl font-black tracking-tighter uppercase mb-4">
+                    {cat.name}
+                  </h3>
+                  <div className="flex items-center space-x-2 text-white/70 font-bold group-hover:text-white transition-colors">
+                    <span className="text-sm">EXPLORE NOW</span>
+                    <div className="w-0 group-hover:w-8 h-[2px] bg-[#E2D1A1] transition-all duration-300"></div>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </section>
